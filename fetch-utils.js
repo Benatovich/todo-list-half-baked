@@ -34,19 +34,25 @@ export async function getTodos() {
         .select()
         .order('complete')
         .match({ user_id: client.auth.user().id, });
-        
+
     return checkError(response);    
 }
 
 export async function completeTodo(id) {
     // find the and update (set complete to true), the todo that matches the correct id
+    const response = await client  
+        .from('todos')
+        .update({ complete: true })
+        .match({
+            user_id: client.auth.user().id,
+            id: id,
+        });
 
     return checkError(response);    
 }
 
-
-
 export async function getUser() {
+    // if something is broken, try adding an await 
     return client.auth.session();
 }
 
