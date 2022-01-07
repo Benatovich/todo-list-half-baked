@@ -17,19 +17,42 @@ const deleteButton = document.querySelector('.delete-button');
 
 todoForm.addEventListener('submit', async(e) => {
     // on submit, create a todo, reset the form, and display the todos
+    e.preventDefault();
+
+    const data = new FormData(todoForm);
+
+    const todo = data.get('todo');
+
+    await createTodo(todo);
+    // reset form
+    todoForm.reset();
+    // display todos
+    displayTodos();
 });
 
 async function displayTodos() {
     // fetch the todos
-    
+    const todos = await getTodos();
+    // clear out todosEl
+    todosEl.textContent = '';
     // display the list of todos
+    for (let todo of todos) {
+        const todoEl = renderTodo(todo);
+        
+        // be sure to give each todo an event listener
+        // on click, complete that todo
+        todoEl.addEventListener('click', async() => {
+            await completeTodo(todo.id);
 
-    // be sure to give each todo an event listener
+            displayTodos();
+        });
+        todosEl.append(todoEl);
+    }
 
-    // on click, complete that todo
 }
 
 // add an on load listener that fetches and displays todos on load
+
 
 logoutButton.addEventListener('click', () => {
     logout();
