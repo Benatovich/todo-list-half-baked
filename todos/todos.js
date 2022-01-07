@@ -52,7 +52,9 @@ async function displayTodos() {
 }
 
 // add an on load listener that fetches and displays todos on load
-
+window.addEventListener('load', async() => {
+    displayTodos();
+});
 
 logoutButton.addEventListener('click', () => {
     logout();
@@ -61,6 +63,7 @@ logoutButton.addEventListener('click', () => {
 
 deleteButton.addEventListener('click', async() => {
     // delete all todos
-
+    await deleteAllTodos();
     // then refetch and display the updated list of todos
+    displayTodos();
 });
